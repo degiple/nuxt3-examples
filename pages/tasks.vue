@@ -1,19 +1,26 @@
+<!-- eslint-disable vue/require-v-for-key -->
 <template>
   <div>
     <form @submit.prevent="($event) => createTask(newTask)">
-      <input v-model="newTask" autocomplete="off" />
+      <input v-model="newTask" autocomplete="off">
       <button>Add</button>
     </form>
     <ul>
       <li v-for="task in tasks">
         {{ task.id }}
-        <input v-model="task.name" type="text" />
-        <input v-model="task.isComplete" type="checkbox" />
-        <button @click="updateTask(task)">Update</button>
-        <button @click="deleteTask(task.id)">Delete</button>
+        <input v-model="task.name" type="text">
+        <input v-model="task.isComplete" type="checkbox">
+        <button @click="updateTask(task)">
+          Update
+        </button>
+        <button @click="deleteTask(task.id)">
+          Delete
+        </button>
       </li>
     </ul>
-    <button @click="clearTask">Clear</button>
+    <button @click="clearTask">
+      Clear
+    </button>
   </div>
 </template>
 

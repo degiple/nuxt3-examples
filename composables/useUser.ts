@@ -15,7 +15,8 @@ export const useUser = () => {
 
   return {
     user: readonly(user),
-    getUser: getUser(user)
+    getUser: getUser(user),
+    updateUser: updateUser(user)
   }
 }
 
@@ -34,8 +35,34 @@ const getUser = (user: Ref<User>) => async () => {
   if (!error.value) {
     console.log(data.value)
     user.value = data.value
-    return user
+    return true
   } else {
-    return error.value
+    console.error(error.value)
+    return false
+  }
+}
+
+const updateUser = (user: Ref<User>) => async (nickName: string) => {
+  const accessToken = useCookie('access_token').value
+  const { data, error } = await useFetch<User>('/user', {
+    method: 'PATCH',
+    baseURL,
+    credentials: 'include',
+    headers: {
+      Accept: 'application/json',
+      ...(accessToken ? { access_token: accessToken } : {})
+    },
+    body: {
+      nickName
+    }
+  })
+
+  if (!error.value) {
+    console.log(data.value?.nickName)
+    user.value = data.value
+    return true
+  } else {
+    console.error(error.value)
+    return false
   }
 }
